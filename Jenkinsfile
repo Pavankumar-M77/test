@@ -2,10 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = 'docker'
+        DOCKERHUB_CREDENTIALS = 'Docker_cre'
         IMAGE_NAME = 'pavankumarm7/new_image'
     }
-
     stages {
         stage('Build Java Application') {
             steps {
@@ -28,12 +27,11 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: "docker",
+                    credentialsId: "Docker_cre",
                     usernameVariable: 'USER',
                     passwordVariable: 'PASS')]) {
                     
-                    // FIX: No space between %PASS% and |
-                    // The ( ) ensures only the variable content is echoed
+                    
                     bat 'echo %PASS%| docker login -u %USER% --password-stdin'
                 }
             }
